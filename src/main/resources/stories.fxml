@@ -2,6 +2,7 @@
 
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -73,18 +74,6 @@
                 </Button>
             </children>
         </AnchorPane>
-      <Text fill="WHITE" layoutX="584.0" layoutY="329.0" stroke="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Дякуємо Вам за рішення використовувати саме наш інструмент для опитувань. Ми раді кожному користувачу. А зараз, для подальшої співпраці, просимо Вас зареєструватися, або увійти." textAlignment="CENTER" wrappingWidth="500.0">
-         <cursor>
-            <Cursor fx:constant="TEXT" />
-         </cursor>
-         <font>
-            <Font name="Calibri" size="25.0" />
-         </font>
-      </Text>
-      <Text fill="WHITE" layoutX="684.0" layoutY="282.0" stroke="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="MVTool" textAlignment="CENTER" wrappingWidth="300.0">
-         <font>
-            <Font name="Impact" size="70.0" />
-         </font>
-      </Text>
+      <ButtonBar layoutX="648.0" layoutY="251.0" prefHeight="40.0" prefWidth="200.0" />
     </children>
 </AnchorPane>
