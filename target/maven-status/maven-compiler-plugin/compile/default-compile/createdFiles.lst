@@ -1,1 +1,5 @@
+com\Main\RegisterController.class
 com\Main\Main.class
+com\Main\LoginController.class
+com\Main\MainController.class
+com\Main\StoriesController.class

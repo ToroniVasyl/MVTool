@@ -21,6 +21,9 @@ public class StoriesController {
     private ImageView home;
 
     @FXML
+    private Button loginButton;
+
+    @FXML
     public void initialize() {
 
         exitButton.setOnAction(this::handleExit);

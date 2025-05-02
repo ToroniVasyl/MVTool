@@ -5,7 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Tooltip;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import javafx.event.ActionEvent;
@@ -13,10 +13,10 @@ import javafx.scene.input.MouseEvent;
 
 import java.io.IOException;
 
-public class MainController {
+public class RegisterController {
 
     @FXML
-    private Button exitButton; 
+    private Button exitButton;
 
     @FXML
     private Button loginButton;
@@ -31,16 +31,16 @@ public class MainController {
     private ImageView home;
 
     @FXML
+    private Hyperlink loginLink;
+
+    @FXML
     public void initialize() {
         exitButton.setOnAction(this::handleExit);
+        loginLink.setOnAction(this::handleLoginClick);
+
         plus.setOnMouseClicked(this::handlePlusClick);
         home.setOnMouseClicked(this::handleHomeClick);
         stories.setOnMouseClicked(this::handleStoriesClick);
-        loginButton.setOnAction(this::handleLoginClick);
-
-        Tooltip.install(home, new Tooltip("Домашня сторінка"));
-        Tooltip.install(plus, new Tooltip("Створити нове"));
-        Tooltip.install(stories, new Tooltip("Історія опитувань"));
     }
 
     private void handleExit(ActionEvent event) {
@@ -68,9 +68,9 @@ public class MainController {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
             Parent root = loader.load();
-
             Stage stage = (Stage) exitButton.getScene().getWindow();
             stage.setScene(new Scene(root));
+            stage.show();
         } catch (IOException e) {
             e.printStackTrace();
         }
