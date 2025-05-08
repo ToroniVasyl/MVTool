@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="768.0" prefWidth="1366.0" style="-fx-background-color: #454C60;" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.Main.LoginController">
+    
+    <children>
+      <AnchorPane layoutX="667.0" prefHeight="41.0" prefWidth="334.0" style="-fx-background-color: #2F3442;">
+         <effect>
+            <DropShadow />
+         </effect>
+         <children>
+            <ImageView fx:id="stories" fitHeight="41.0" fitWidth="35.0" layoutX="67.0" layoutY="4.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@icons/stories.png" />
+               </image>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </ImageView>
+            <ImageView fx:id="plus" fitHeight="41.0" fitWidth="35.0" layoutX="150.0" layoutY="4.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@icons/plus.png" />
+               </image>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </ImageView>
+            <ImageView fx:id="home" fitHeight="41.0" fitWidth="35.0" layoutX="230.0" layoutY="4.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@icons/home.png" />
+               </image>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </ImageView>
+         </children>
+      </AnchorPane>
+
+        <AnchorPane prefHeight="768.0" prefWidth="334.0" style="-fx-background-color: #2F3442;">
+            <effect>
+                <DropShadow />
+            </effect>
+            <children>
+                
+                <AnchorPane layoutY="49.0" prefHeight="69.0" prefWidth="334.0" style="-fx-background-color: #454C60;">
+                    <children>
+                        <Text fill="WHITE" layoutX="116.0" layoutY="48.0" stroke="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="MVTool" textAlignment="CENTER">
+                            <font>
+                                <Font name="Impact" size="34.0" />
+                            </font>
+                        </Text>
+                    </children>
+                    <effect>
+                        <DropShadow radius="4.75" width="0.0" />
+                    </effect>
+                </AnchorPane>
+                
+                                        <Button fx:id="exitButton" layoutX="87.0" layoutY="695.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="160.0" style="-fx-background-color: #FF4646;" text="Вийти з програми" textAlignment="CENTER" textFill="WHITE">
+                    <font>
+                        <Font name="Impact" size="16.0" />
+                    </font>
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
+                </Button>
+            <Button fx:id="loginButton" layoutX="94.0" layoutY="165.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="147.0" style="-fx-background-color: white;" text="Вхід/Реєстрація" textFill="#41485b">
+               <font>
+                  <Font name="Impact" size="16.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+            <Line endX="100.0" layoutX="167.0" layoutY="254.0" startX="-100.0" stroke="WHITE" />
+            <Line endX="100.0" layoutX="167.0" layoutY="667.0" startX="-100.0" stroke="WHITE" />
+            <Circle fill="WHITE" layoutX="114.0" layoutY="319.0" opacity="0.25" radius="47.0" stroke="BLACK" strokeType="INSIDE" />
+            <Circle fill="WHITE" layoutX="205.0" layoutY="432.0" opacity="0.25" radius="63.0" stroke="BLACK" strokeType="INSIDE" />
+            <Circle fill="WHITE" layoutX="110.0" layoutY="514.0" opacity="0.25" radius="43.0" stroke="BLACK" strokeType="INSIDE" />
+            <Circle fill="WHITE" layoutX="205.0" layoutY="589.0" opacity="0.25" radius="58.0" stroke="BLACK" strokeType="INSIDE" />
+            <Circle fill="WHITE" layoutX="105.0" layoutY="625.0" opacity="0.25" radius="25.0" stroke="BLACK" strokeType="INSIDE" />
+            <Circle fill="WHITE" layoutX="233.0" layoutY="307.0" opacity="0.25" radius="35.0" stroke="BLACK" strokeType="INSIDE" />
+            <Circle fill="WHITE" layoutX="105.0" layoutY="416.0" opacity="0.25" radius="25.0" stroke="BLACK" strokeType="INSIDE" />
+            </children>
+        </AnchorPane>
+      <Pane layoutX="404.0" layoutY="67.0" prefHeight="673.0" prefWidth="861.0" style="-fx-background-color: white;">
+         <children>
+            <Hyperlink fx:id="registerLink" layoutX="336.0" layoutY="403.0" text="Немає аккаунту? Зареєструйтесь!" />
+            <Text fill="#41485b" layoutX="388.0" layoutY="162.0" stroke="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Вхід" textAlignment="CENTER">
+               <font>
+                  <Font name="Impact" size="45.0" />
+               </font>
+            </Text>
+            <TextField layoutX="282.0" layoutY="324.0" prefHeight="25.0" prefWidth="298.0" />
+            <TextField layoutX="282.0" layoutY="248.0" prefHeight="25.0" prefWidth="298.0" />
+            <Text fill="#41485b" layoutX="393.0" layoutY="241.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Пошта:" textAlignment="CENTER">
+               <font>
+                  <Font name="Calibri" size="25.0" />
+               </font>
+            </Text>
+            <Text fill="#41485b" layoutX="388.0" layoutY="317.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Пароль:" textAlignment="CENTER">
+               <font>
+                  <Font name="Calibri" size="25.0" />
+               </font>
+            </Text>
+            <Button fx:id="log" layoutX="399.0" layoutY="364.0" mnemonicParsing="false" style="-fx-background-color: #41485b;" text="Увійти" textFill="WHITE">
+               <font>
+                  <Font size="15.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+            <Circle fill="#454c60" layoutX="107.0" layoutY="121.0" opacity="0.25" radius="58.0" stroke="BLACK" strokeType="INSIDE" />
+            <Circle fill="#454c60" layoutX="107.0" layoutY="566.0" opacity="0.25" radius="93.0" stroke="BLACK" strokeType="INSIDE" />
+            <Circle fill="#454c60" layoutX="165.0" layoutY="380.0" opacity="0.25" radius="35.0" stroke="BLACK" strokeType="INSIDE" />
+            <Circle fill="#454c60" layoutX="102.0" layoutY="261.0" opacity="0.25" radius="74.0" stroke="BLACK" strokeType="INSIDE" />
+            <Circle fill="#454c60" layoutX="292.0" layoutY="511.0" opacity="0.25" radius="68.0" stroke="BLACK" strokeType="INSIDE" />
+            <Circle fill="#454c60" layoutX="804.0" layoutY="46.0" opacity="0.25" radius="32.0" stroke="BLACK" strokeType="INSIDE" />
+            <Circle fill="#454c60" layoutX="730.0" layoutY="145.0" opacity="0.25" radius="58.0" stroke="BLACK" strokeType="INSIDE" />
+            <Circle fill="#454c60" layoutX="746.0" layoutY="331.0" opacity="0.25" radius="101.0" stroke="BLACK" strokeType="INSIDE" />
+            <Circle fill="#454c60" layoutX="645.0" layoutY="473.0" opacity="0.25" radius="43.0" stroke="BLACK" strokeType="INSIDE" />
+            <Circle fill="#454c60" layoutX="779.0" layoutY="579.0" opacity="0.25" radius="58.0" stroke="BLACK" strokeType="INSIDE" />
+            <Circle fill="#454c60" layoutX="496.0" layoutY="566.0" opacity="0.25" radius="74.0" stroke="BLACK" strokeType="INSIDE" />
+            <Circle fill="#454c60" layoutX="680.0" layoutY="38.0" opacity="0.25" radius="35.0" stroke="BLACK" strokeType="INSIDE" />
+            <Circle fill="#454c60" layoutX="75.0" layoutY="415.0" opacity="0.25" radius="43.0" stroke="BLACK" strokeType="INSIDE" />
+            <Circle fill="#454c60" layoutX="189.0" layoutY="46.0" opacity="0.25" radius="35.0" stroke="BLACK" strokeType="INSIDE" />
+            <Circle fill="#454c60" layoutX="53.0" layoutY="38.0" opacity="0.25" radius="25.0" stroke="BLACK" strokeType="INSIDE" />
+            <Circle fill="#454c60" layoutX="361.0" layoutY="617.0" opacity="0.25" radius="38.0" stroke="BLACK" strokeType="INSIDE" />
+         </children>
+      </Pane>
+    </children>
+</AnchorPane>
