@@ -1,5 +1,10 @@
 com\Main\RegisterController.class
+com\Main\DoneSurveyController.class
+com\Main\NewSurveyController.class
+com\Main\SurveyQuestion.class
+com\Main\SurveyDataStore.class
 com\Main\Main.class
 com\Main\LoginController.class
 com\Main\MainController.class
+com\Main\DataBase\DataBaseConnect.class
 com\Main\StoriesController.class

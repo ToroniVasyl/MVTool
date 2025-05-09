@@ -18,6 +18,16 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+
+import com.Main.DataBase.DataBaseConnect;
+
+
 public class NewSurveyController {
 
     @FXML 
@@ -94,26 +104,89 @@ public class NewSurveyController {
         switchScene("/stories.fxml");
     }
 
-    private void handleDoneClick(ActionEvent event) {
-        SurveyDataStore store = SurveyDataStore.getInstance();
-        store.setTitle(titleField.getText());
-        store.setDescription(descriptionField.getText());
-        store.setQuestions(collectQuestions());
+private void handleDoneClick(ActionEvent event) {
+    SurveyDataStore store = SurveyDataStore.getInstance();
+    store.setTitle(titleField.getText());
+    store.setDescription(descriptionField.getText());
+    store.setQuestions(collectQuestions()); // Повертає список питань (типу List<SurveyQuestion>)
 
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/donesurvey.fxml"));
-            Parent root = loader.load();
+    try (Connection conn = DataBaseConnect.connect()) {
+        conn.setAutoCommit(false); // 🔒 Починаємо транзакцію
 
-            DoneSurveyController controller = loader.getController();
-            controller.setSurveyInfo(store.getTitle(), store.getDescription());
-            controller.setQuestions(store.getQuestions());
+        // 1. Додаємо опитування
+        String sqlSurvey = "INSERT INTO surveys (title, description) VALUES (?, ?)";
+        PreparedStatement surveyStmt = conn.prepareStatement(sqlSurvey, Statement.RETURN_GENERATED_KEYS);
+        surveyStmt.setString(1, store.getTitle());
+        surveyStmt.setString(2, store.getDescription());
+        surveyStmt.executeUpdate();
 
-            Stage stage = (Stage) exitButton.getScene().getWindow();
-            stage.setScene(new Scene(root));
-        } catch (IOException e) {
-            e.printStackTrace();
+        ResultSet surveyKeys = surveyStmt.getGeneratedKeys();
+        int surveyId = -1;
+        if (surveyKeys.next()) {
+            surveyId = surveyKeys.getInt(1);
         }
+
+        // 2. Додаємо кожне питання і його відповіді
+        String sqlQuestion = "INSERT INTO questions (survey_id, text) VALUES (?, ?)";
+        PreparedStatement questionStmt = conn.prepareStatement(sqlQuestion, Statement.RETURN_GENERATED_KEYS);
+
+        String sqlAnswer = "INSERT INTO answers (question_id, answer, is_custom_allowed) VALUES (?, ?, ?)";
+        PreparedStatement answerStmt = conn.prepareStatement(sqlAnswer);
+
+        for (SurveyQuestion q : store.getQuestions()) {  // Замінили Question на SurveyQuestion
+            // вставити питання
+            questionStmt.setInt(1, surveyId);
+            questionStmt.setString(2, q.getQuestionText());
+            questionStmt.executeUpdate();
+
+            ResultSet questionKeys = questionStmt.getGeneratedKeys();
+            int questionId = -1;
+            if (questionKeys.next()) {
+                questionId = questionKeys.getInt(1);
+            }
+
+            // вставити відповіді
+            for (String ans : q.getAnswers()) {
+                answerStmt.setInt(1, questionId);
+                answerStmt.setString(2, ans);
+                answerStmt.setBoolean(3, false); // стандартна відповідь
+                answerStmt.addBatch();
+            }
+
+            // додати "власний варіант", якщо дозволено
+            if (q.isCustomAllowed()) {
+                answerStmt.setInt(1, questionId);
+                answerStmt.setString(2, "Власний варіант");
+                answerStmt.setBoolean(3, true);
+                answerStmt.addBatch();
+            }
+
+            answerStmt.executeBatch();
+        }
+
+        conn.commit(); // ✅ Підтверджуємо транзакцію
+
+    } catch (SQLException e) {
+        e.printStackTrace();
     }
+
+    // 3. Переходимо на сцену завершення
+    try {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/donesurvey.fxml"));
+        Parent root = loader.load();
+
+        DoneSurveyController controller = loader.getController();
+        controller.setSurveyInfo(store.getTitle(), store.getDescription());
+        controller.setQuestions(store.getQuestions());
+
+        Stage stage = (Stage) exitButton.getScene().getWindow();
+        stage.setScene(new Scene(root));
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+}
+
+
 
     private void switchScene(String fxmlPath) {
         try {

@@ -45,4 +45,18 @@ public class SurveyDataStore {
     public List<SurveyQuestion> getQuestions() {
         return questions;
     }
+
+    public void addQuestion(SurveyQuestion question) {
+        this.questions.add(question); // Метод для додавання питання
+    }
+
+    // Можна також додати метод для перевірки наявності дозволу на введення власних варіантів
+    public boolean isCustomAllowedForAnyQuestion() {
+        for (SurveyQuestion question : questions) {
+            if (question.isCustomAllowed()) {
+                return true; // Якщо хоча б для одного питання дозволено введення власного варіанту
+            }
+        }
+        return false;
+    }
 }
