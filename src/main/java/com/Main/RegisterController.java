@@ -11,6 +11,10 @@ import javafx.stage.Stage;
 import javafx.event.ActionEvent;
 import javafx.scene.input.MouseEvent;
 
+import javafx.scene.control.TextField;
+import javafx.scene.control.PasswordField;
+
+
 import java.io.IOException;
 
 public class RegisterController {
@@ -34,10 +38,20 @@ public class RegisterController {
     private Hyperlink loginLink;
 
     @FXML
+    private TextField usernameField;
+
+    @FXML
+    private PasswordField passwordField;
+
+    @FXML
+    private Button registerButton;
+
+
+    @FXML
     public void initialize() {
         exitButton.setOnAction(this::handleExit);
         loginLink.setOnAction(this::handleLoginClick);
-
+        registerButton.setOnAction(this::handleRegisterClick);
         plus.setOnMouseClicked(this::handlePlusClick);
         home.setOnMouseClicked(this::handleHomeClick);
         stories.setOnMouseClicked(this::handleStoriesClick);
@@ -62,6 +76,18 @@ public class RegisterController {
 
     private void handleStoriesClick(MouseEvent event) {
         switchScene("/stories.fxml");
+    }
+
+    @FXML
+    private void handleRegisterClick(ActionEvent event) {
+        String username = usernameField.getText();
+        String password = passwordField.getText();
+    
+        if (AuthService.register(username, password)) {
+            System.out.println("Реєстрація успішна");
+        } else {
+            System.out.println("Помилка під час реєстрації");
+        }
     }
 
     private void switchScene(String fxmlPath) {

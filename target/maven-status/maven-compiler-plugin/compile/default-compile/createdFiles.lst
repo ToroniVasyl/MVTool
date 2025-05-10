@@ -5,6 +5,7 @@ com\Main\SurveyQuestion.class
 com\Main\SurveyDataStore.class
 com\Main\Main.class
 com\Main\LoginController.class
+com\Main\AuthService.class
 com\Main\MainController.class
 com\Main\DataBase\DataBaseConnect.class
 com\Main\StoriesController.class
