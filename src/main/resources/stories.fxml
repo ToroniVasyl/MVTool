@@ -14,7 +14,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="768.0" prefWidth="1366.0" style="-fx-background-color: #454C60;" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.Main.MainController">
+<AnchorPane prefHeight="768.0" prefWidth="1366.0" style="-fx-background-color: #454C60;" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.Main.StoriesController">
     <children>
         <AnchorPane layoutX="667.0" prefHeight="41.0" prefWidth="334.0" style="-fx-background-color: #2F3442;">
             <effect><DropShadow /></effect>
@@ -44,7 +44,7 @@
 
                 <ScrollPane fitToWidth="true" layoutX="205.0" layoutY="146.0" prefHeight="474.0" prefWidth="452.0">
                     <content>
-                        <VBox fx:id="questionContainer" spacing="20.0" />
+                        <VBox fx:id="surveyList" spacing="20.0" />
                     </content>
                 </ScrollPane>
 
