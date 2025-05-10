@@ -14,7 +14,15 @@ import javafx.stage.Stage;
 import javafx.event.ActionEvent;
 
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
+import java.sql.Statement;
+
+
+import com.Main.DataBase.DataBaseConnect;
 
 public class DoneSurveyController {
 
@@ -23,6 +31,9 @@ public class DoneSurveyController {
 
     @FXML 
     private Button loginButton;
+
+    @FXML
+    private Button save;
 
     @FXML 
     private ImageView stories;
@@ -49,6 +60,7 @@ public class DoneSurveyController {
         home.setOnMouseClicked(this::handleHomeClick);
         stories.setOnMouseClicked(this::handleStoriesClick);
         loginButton.setOnAction(this::handleLoginClick);
+        save.setOnAction(this::handleDoneClick);
 
         Tooltip.install(home, new Tooltip("Домашня сторінка"));
         Tooltip.install(plus, new Tooltip("Створити нове"));
@@ -127,4 +139,79 @@ public class DoneSurveyController {
             questionContainer.getChildren().add(questionBox);
         }
     }
+
+     @FXML
+    private void handleDoneClick(ActionEvent event) {
+        SurveyDataStore store = SurveyDataStore.getInstance();
+
+        try (Connection conn = DataBaseConnect.connect()) {
+            conn.setAutoCommit(false);
+
+            String sqlSurvey = "INSERT INTO surveys (title, description) VALUES (?, ?)";
+            PreparedStatement surveyStmt = conn.prepareStatement(sqlSurvey, Statement.RETURN_GENERATED_KEYS);
+            surveyStmt.setString(1, store.getTitle());
+            surveyStmt.setString(2, store.getDescription());
+            surveyStmt.executeUpdate();
+
+            ResultSet surveyKeys = surveyStmt.getGeneratedKeys();
+            int surveyId = -1;
+            if (surveyKeys.next()) {
+                surveyId = surveyKeys.getInt(1);
+            }
+
+            String sqlQuestion = "INSERT INTO questions (survey_id, text) VALUES (?, ?)";
+            PreparedStatement questionStmt = conn.prepareStatement(sqlQuestion, Statement.RETURN_GENERATED_KEYS);
+
+            String sqlAnswer = "INSERT INTO answers (question_id, answer, is_custom_allowed) VALUES (?, ?, ?)";
+            PreparedStatement answerStmt = conn.prepareStatement(sqlAnswer);
+
+            for (SurveyQuestion q : store.getQuestions()) {
+                questionStmt.setInt(1, surveyId);
+                questionStmt.setString(2, q.getQuestionText());
+                questionStmt.executeUpdate();
+
+                ResultSet questionKeys = questionStmt.getGeneratedKeys();
+                int questionId = -1;
+                if (questionKeys.next()) {
+                    questionId = questionKeys.getInt(1);
+                }
+
+                for (String ans : q.getAnswers()) {
+                    answerStmt.setInt(1, questionId);
+                    answerStmt.setString(2, ans);
+                    answerStmt.setBoolean(3, false);
+                    answerStmt.addBatch();
+                }
+
+                if (q.isCustomAllowed()) {
+                    answerStmt.setInt(1, questionId);
+                    answerStmt.setString(2, "Власний варіант");
+                    answerStmt.setBoolean(3, true);
+                    answerStmt.addBatch();
+                }
+
+                answerStmt.executeBatch();
+            }
+
+            conn.commit();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/donesurvey.fxml"));
+            Parent root = loader.load();
+
+            DoneSurveyController controller = loader.getController();
+            controller.setSurveyInfo(store.getTitle(), store.getDescription());
+            controller.setQuestions(store.getQuestions());
+
+            Stage stage = (Stage) exitButton.getScene().getWindow();
+            stage.setScene(new Scene(root));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
+
