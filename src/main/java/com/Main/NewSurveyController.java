@@ -124,6 +124,7 @@ private void handleDoneClick(ActionEvent event) {
         int surveyId = -1;
         if (surveyKeys.next()) {
             surveyId = surveyKeys.getInt(1);
+             store.setSurveyId(surveyId);
         }
 
         // 2. Додаємо кожне питання і його відповіді

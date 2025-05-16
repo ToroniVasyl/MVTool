@@ -10,6 +10,7 @@ public class SurveyDataStore {
     private String title;
     private String description;
     private List<SurveyQuestion> questions;
+    private int surveyId;
 
     private SurveyDataStore() {
         questions = new ArrayList<>();
@@ -42,6 +43,13 @@ public class SurveyDataStore {
         this.questions = questions;
     }
 
+    public void setSurveyId(int id) {
+    this.surveyId = id;
+    }
+
+    public int getSurveyId() {
+        return surveyId;
+    }
     public List<SurveyQuestion> getQuestions() {
         return questions;
     }

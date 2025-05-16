@@ -39,7 +39,13 @@ public class StoriesController {
     public void initialize() {
 
         exitButton.setOnAction(this::handleExit);
-        loadSurveys();
+      
+        Integer currentUserId = Session.getCurrentUserId();
+    if (currentUserId != null) {
+        loadSurveys(currentUserId);
+    } else {
+        // наприклад, вивести повідомлення, що користувач не авторизований
+    }
 
     }
 
@@ -48,10 +54,11 @@ public class StoriesController {
         stage.close();
     }
 
-    private void loadSurveys() {
+private void loadSurveys(int userId) {
     try (Connection conn = DataBaseConnect.connect()) {
-        String sql = "SELECT id, title, description FROM surveys ORDER BY id DESC LIMIT 10";
+        String sql = "SELECT id, title, description FROM surveys WHERE user_id = ? ORDER BY id DESC LIMIT 10";
         PreparedStatement stmt = conn.prepareStatement(sql);
+        stmt.setInt(1, userId);
         ResultSet rs = stmt.executeQuery();
 
         while (rs.next()) {
@@ -72,5 +79,6 @@ public class StoriesController {
         e.printStackTrace();
     }
 }
+
 
 }

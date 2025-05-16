@@ -54,6 +54,9 @@ public class DoneSurveyController {
     private Label surveyDescription;
 
     @FXML
+    private Label idLabel;
+
+    @FXML
     public void initialize() {
         exitButton.setOnAction(this::handleExit);
         plus.setOnMouseClicked(this::handlePlusClick);
@@ -141,77 +144,83 @@ public class DoneSurveyController {
     }
 
      @FXML
-    private void handleDoneClick(ActionEvent event) {
-        SurveyDataStore store = SurveyDataStore.getInstance();
+ private void handleDoneClick(ActionEvent event) {
+    SurveyDataStore store = SurveyDataStore.getInstance();
 
-        try (Connection conn = DataBaseConnect.connect()) {
-            conn.setAutoCommit(false);
+    try (Connection conn = DataBaseConnect.connect()) {
+        conn.setAutoCommit(false);
 
-            String sqlSurvey = "INSERT INTO surveys (title, description) VALUES (?, ?)";
-            PreparedStatement surveyStmt = conn.prepareStatement(sqlSurvey, Statement.RETURN_GENERATED_KEYS);
-            surveyStmt.setString(1, store.getTitle());
-            surveyStmt.setString(2, store.getDescription());
-            surveyStmt.executeUpdate();
+        // ⬇️ Отримуємо ID поточного користувача
+        int currentUserId = Session.getCurrentUserId(); // Ти повинен мати Session клас, який зберігає user_id після логіну
 
-            ResultSet surveyKeys = surveyStmt.getGeneratedKeys();
-            int surveyId = -1;
-            if (surveyKeys.next()) {
-                surveyId = surveyKeys.getInt(1);
-            }
+        // ⬇️ Вставка опитування з user_id
+        String sqlSurvey = "INSERT INTO surveys (title, description, user_id) VALUES (?, ?, ?)";
+        PreparedStatement surveyStmt = conn.prepareStatement(sqlSurvey, Statement.RETURN_GENERATED_KEYS);
+        surveyStmt.setString(1, store.getTitle());
+        surveyStmt.setString(2, store.getDescription());
+        surveyStmt.setInt(3, currentUserId);
+        surveyStmt.executeUpdate();
 
-            String sqlQuestion = "INSERT INTO questions (survey_id, text) VALUES (?, ?)";
-            PreparedStatement questionStmt = conn.prepareStatement(sqlQuestion, Statement.RETURN_GENERATED_KEYS);
-
-            String sqlAnswer = "INSERT INTO answers (question_id, answer, is_custom_allowed) VALUES (?, ?, ?)";
-            PreparedStatement answerStmt = conn.prepareStatement(sqlAnswer);
-
-            for (SurveyQuestion q : store.getQuestions()) {
-                questionStmt.setInt(1, surveyId);
-                questionStmt.setString(2, q.getQuestionText());
-                questionStmt.executeUpdate();
-
-                ResultSet questionKeys = questionStmt.getGeneratedKeys();
-                int questionId = -1;
-                if (questionKeys.next()) {
-                    questionId = questionKeys.getInt(1);
-                }
-
-                for (String ans : q.getAnswers()) {
-                    answerStmt.setInt(1, questionId);
-                    answerStmt.setString(2, ans);
-                    answerStmt.setBoolean(3, false);
-                    answerStmt.addBatch();
-                }
-
-                if (q.isCustomAllowed()) {
-                    answerStmt.setInt(1, questionId);
-                    answerStmt.setString(2, "Власний варіант");
-                    answerStmt.setBoolean(3, true);
-                    answerStmt.addBatch();
-                }
-
-                answerStmt.executeBatch();
-            }
-
-            conn.commit();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
+        ResultSet surveyKeys = surveyStmt.getGeneratedKeys();
+        int surveyId = -1;
+        if (surveyKeys.next()) {
+            surveyId = surveyKeys.getInt(1);
         }
 
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/donesurvey.fxml"));
-            Parent root = loader.load();
+        String sqlQuestion = "INSERT INTO questions (survey_id, text) VALUES (?, ?)";
+        PreparedStatement questionStmt = conn.prepareStatement(sqlQuestion, Statement.RETURN_GENERATED_KEYS);
 
-            DoneSurveyController controller = loader.getController();
-            controller.setSurveyInfo(store.getTitle(), store.getDescription());
-            controller.setQuestions(store.getQuestions());
+        String sqlAnswer = "INSERT INTO answers (question_id, answer, is_custom_allowed) VALUES (?, ?, ?)";
+        PreparedStatement answerStmt = conn.prepareStatement(sqlAnswer);
 
-            Stage stage = (Stage) exitButton.getScene().getWindow();
-            stage.setScene(new Scene(root));
-        } catch (IOException e) {
-            e.printStackTrace();
+        for (SurveyQuestion q : store.getQuestions()) {
+            questionStmt.setInt(1, surveyId);
+            questionStmt.setString(2, q.getQuestionText());
+            questionStmt.executeUpdate();
+
+            ResultSet questionKeys = questionStmt.getGeneratedKeys();
+            int questionId = -1;
+            if (questionKeys.next()) {
+                questionId = questionKeys.getInt(1);
+            }
+
+            for (String ans : q.getAnswers()) {
+                answerStmt.setInt(1, questionId);
+                answerStmt.setString(2, ans);
+                answerStmt.setBoolean(3, false);
+                answerStmt.addBatch();
+            }
+
+            if (q.isCustomAllowed()) {
+                answerStmt.setInt(1, questionId);
+                answerStmt.setString(2, "Власний варіант");
+                answerStmt.setBoolean(3, true);
+                answerStmt.addBatch();
+            }
+
+            answerStmt.executeBatch();
         }
+
+        conn.commit();
+
+    } catch (SQLException e) {
+        e.printStackTrace();
     }
+
+    try {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/donesurvey.fxml"));
+        Parent root = loader.load();
+
+        DoneSurveyController controller = loader.getController();
+        controller.setSurveyInfo(store.getTitle(), store.getDescription());
+        controller.setQuestions(store.getQuestions());
+
+        Stage stage = (Stage) exitButton.getScene().getWindow();
+        stage.setScene(new Scene(root));
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+}
+
 }
 

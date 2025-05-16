@@ -64,17 +64,21 @@ public class LoginController {
         stage.close();
     }
 
-    private void handleLoginClick(ActionEvent event) {
-       String username = usernameField.getText();
+   private void handleLoginClick(ActionEvent event) {
+    String username = usernameField.getText();
     String password = passwordField.getText();
 
-    if (AuthService.login(username, password)) {
+    Integer userId = AuthService.login(username, password);
+
+    if (userId != null) {
+        Session.setCurrentUserId(userId);
         switchScene("/main.fxml");
-        System.out.println("Успішний вхід");
+        System.out.println("Успішний вхід. user_id = " + userId);
     } else {
         System.out.println("Невірний логін або пароль");
     }
 }
+
 
     private void handleRegisterClick(ActionEvent event) {
         switchScene("/register.fxml");
