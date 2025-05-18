@@ -105,26 +105,31 @@ public class NewSurveyController {
     }
 
 private void handleDoneClick(ActionEvent event) {
+    int currentUserId = Session.getCurrentUserId();  // Оголошення і отримання currentUserId
+
     SurveyDataStore store = SurveyDataStore.getInstance();
     store.setTitle(titleField.getText());
     store.setDescription(descriptionField.getText());
     store.setQuestions(collectQuestions()); // Повертає список питань (типу List<SurveyQuestion>)
 
+    int userId = currentUserId; // отримуємо user_id з контексту або іншого джерела
+
     try (Connection conn = DataBaseConnect.connect()) {
         conn.setAutoCommit(false); // 🔒 Починаємо транзакцію
 
-        // 1. Додаємо опитування
-        String sqlSurvey = "INSERT INTO surveys (title, description) VALUES (?, ?)";
+        // 1. Додаємо опитування з user_id
+        String sqlSurvey = "INSERT INTO surveys (user_id, title, description) VALUES (?, ?, ?)";
         PreparedStatement surveyStmt = conn.prepareStatement(sqlSurvey, Statement.RETURN_GENERATED_KEYS);
-        surveyStmt.setString(1, store.getTitle());
-        surveyStmt.setString(2, store.getDescription());
+        surveyStmt.setInt(1, userId);                    // Ось тут передаємо user_id
+        surveyStmt.setString(2, store.getTitle());
+        surveyStmt.setString(3, store.getDescription());
         surveyStmt.executeUpdate();
 
         ResultSet surveyKeys = surveyStmt.getGeneratedKeys();
         int surveyId = -1;
         if (surveyKeys.next()) {
             surveyId = surveyKeys.getInt(1);
-             store.setSurveyId(surveyId);
+            store.setSurveyId(surveyId);
         }
 
         // 2. Додаємо кожне питання і його відповіді
@@ -134,8 +139,7 @@ private void handleDoneClick(ActionEvent event) {
         String sqlAnswer = "INSERT INTO answers (question_id, answer, is_custom_allowed) VALUES (?, ?, ?)";
         PreparedStatement answerStmt = conn.prepareStatement(sqlAnswer);
 
-        for (SurveyQuestion q : store.getQuestions()) {  // Замінили Question на SurveyQuestion
-            // вставити питання
+        for (SurveyQuestion q : store.getQuestions()) {
             questionStmt.setInt(1, surveyId);
             questionStmt.setString(2, q.getQuestionText());
             questionStmt.executeUpdate();
@@ -146,15 +150,13 @@ private void handleDoneClick(ActionEvent event) {
                 questionId = questionKeys.getInt(1);
             }
 
-            // вставити відповіді
-            for (String ans : q.getAnswers()) {
+            for (String ans : q.getOptions()) {
                 answerStmt.setInt(1, questionId);
                 answerStmt.setString(2, ans);
-                answerStmt.setBoolean(3, false); // стандартна відповідь
+                answerStmt.setBoolean(3, false);
                 answerStmt.addBatch();
             }
 
-            // додати "власний варіант", якщо дозволено
             if (q.isCustomAllowed()) {
                 answerStmt.setInt(1, questionId);
                 answerStmt.setString(2, "Власний варіант");
@@ -165,7 +167,7 @@ private void handleDoneClick(ActionEvent event) {
             answerStmt.executeBatch();
         }
 
-        conn.commit(); // ✅ Підтверджуємо транзакцію
+        conn.commit();
 
     } catch (SQLException e) {
         e.printStackTrace();
@@ -189,6 +191,8 @@ private void handleDoneClick(ActionEvent event) {
 
 
 
+    
+
     private void switchScene(String fxmlPath) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
@@ -201,43 +205,46 @@ private void handleDoneClick(ActionEvent event) {
     }
 
     private List<SurveyQuestion> collectQuestions() {
-        List<SurveyQuestion> questions = new ArrayList<>();
+    List<SurveyQuestion> questions = new ArrayList<>();
 
-        for (javafx.scene.Node node : questionContainer.getChildren()) {
-            if (node instanceof VBox) {
-                VBox questionPane = (VBox) node;
+    for (javafx.scene.Node node : questionContainer.getChildren()) {
+        if (!(node instanceof VBox)) continue;
+        VBox questionPane = (VBox) node;
 
-                HBox topRow = (HBox) questionPane.getChildren().get(0);
-                TextField questionField = (TextField) topRow.getChildren().get(0);
-                ComboBox<String> methodBox = (ComboBox<String>) topRow.getChildren().get(1);
+        // 1. Перший рядок: TextField + ComboBox
+        HBox topRow = (HBox) questionPane.getChildren().get(0);
+        TextField questionField = (TextField) topRow.getChildren().get(0);
+        ComboBox<String> methodBox = (ComboBox<String>) topRow.getChildren().get(1);
 
-                VBox optionsBox = (VBox) questionPane.getChildren().get(2);
-                String type = methodBox.getValue();
+        String type = methodBox.getValue();
+        String questionText = questionField.getText();
+        if (type == null || questionText.isBlank()) continue;
 
-                if (type == null || questionField.getText().isBlank()) continue;
-
-                List<String> options = new ArrayList<>();
-
-                if (!type.equals("Власна відповідь")) {
-                    for (javafx.scene.Node optNode : optionsBox.getChildren()) {
-                        if (optNode instanceof HBox) {
-                            HBox optBox = (HBox) optNode;
-                            if (optBox.getChildren().size() >= 2) {
-                                TextField optField = (TextField) optBox.getChildren().get(1);
-                                if (!optField.getText().isBlank()) {
-                                    options.add(optField.getText());
-                                }
-                            }
+        // 2. Збираємо варіанти (якщо не «Власна відповідь»)
+        VBox optionsBox = (VBox) questionPane.getChildren().get(2);
+        List<String> options = new ArrayList<>();
+        if (!"Власна відповідь".equals(type)) {
+            for (javafx.scene.Node optNode : optionsBox.getChildren()) {
+                if (optNode instanceof HBox) {
+                    HBox optBox = (HBox) optNode;
+                    if (optBox.getChildren().size() >= 2) {
+                        TextField optField = (TextField) optBox.getChildren().get(1);
+                        String text = optField.getText();
+                        if (!text.isBlank()) {
+                            options.add(text);
                         }
                     }
                 }
-
-                questions.add(new SurveyQuestion(questionField.getText(), type, options));
             }
         }
 
-        return questions;
+        // 3. Створюємо питання з варіантами та типом
+        questions.add(new SurveyQuestion(questionText, type, options));
     }
+
+    return questions;
+}
+
 
     private void handleAddQuestion(ActionEvent event) {
         restoreQuestion(new SurveyQuestion("", null, new ArrayList<>()));

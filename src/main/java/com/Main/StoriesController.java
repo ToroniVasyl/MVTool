@@ -1,11 +1,15 @@
 package com.Main;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -54,7 +58,8 @@ public class StoriesController {
         stage.close();
     }
 
-private void loadSurveys(int userId) {
+
+   private void loadSurveys(int userId) {
     try (Connection conn = DataBaseConnect.connect()) {
         String sql = "SELECT id, title, description FROM surveys WHERE user_id = ? ORDER BY id DESC LIMIT 10";
         PreparedStatement stmt = conn.prepareStatement(sql);
@@ -62,15 +67,19 @@ private void loadSurveys(int userId) {
         ResultSet rs = stmt.executeQuery();
 
         while (rs.next()) {
+            int surveyId = rs.getInt("id");
             String title = rs.getString("title");
             String description = rs.getString("description");
 
             VBox surveyBox = new VBox(5);
-            surveyBox.setStyle("-fx-border-color: #ccc; -fx-padding: 10; -fx-background-color: #f9f9f9;");
+            surveyBox.setStyle("-fx-border-color: #ccc; -fx-padding: 10; -fx-background-color: #f9f9f9; -fx-cursor: hand;");
             surveyBox.getChildren().addAll(
                 new javafx.scene.control.Label("Назва: " + title),
                 new javafx.scene.control.Label("Опис: " + description)
             );
+
+            // 👇 додаємо клік по опитуванню
+            surveyBox.setOnMouseClicked(event -> openSurvey(surveyId));
 
             surveyList.getChildren().add(surveyBox);
         }
@@ -79,6 +88,24 @@ private void loadSurveys(int userId) {
         e.printStackTrace();
     }
 }
+
+// відкриває donesurvey.fxml і передає surveyId
+private void openSurvey(int surveyId) {
+    try {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/donesurvey.fxml"));
+        Parent root = loader.load();
+
+        DoneSurveyController controller = loader.getController();
+        controller.loadSurveyById(surveyId);
+
+        Stage stage = (Stage) exitButton.getScene().getWindow();
+        stage.setScene(new Scene(root));
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+}
+
+
 
 
 }

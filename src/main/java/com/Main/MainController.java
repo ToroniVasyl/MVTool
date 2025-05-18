@@ -63,6 +63,7 @@ public class MainController {
     private void handleStoriesClick(MouseEvent event) {
         switchScene("/stories.fxml");
     }
+    
 
     private void switchScene(String fxmlPath) {
         try {

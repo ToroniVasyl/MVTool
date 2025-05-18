@@ -1,54 +1,79 @@
 package com.Main;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 public class SurveyQuestion {
-    private String questionText;
-    private String type;
-    private List<String> options;
-    private boolean customAllowed; // Дозвіл на власні варіанти відповіді
-    private List<String> answers; // Поле для зберігання відповідей
 
-    // Конструктор з чотирма параметрами
+    private String questionText;
+    private String type;                      // «Один варіант», «Декілька варіантів», «Власна відповідь»
+    private List<String> options;            // всі варіанти відповіді
+    private List<String> selectedAnswers;    // вибрані користувачем відповіді
+    private boolean customAllowed;
+
+    // ◀ Конструктор для NewSurveyController (без customAllowed — за замовчуванням false)
+    public SurveyQuestion(String questionText, String type, List<String> options) {
+        this(questionText, type, options, false);
+    }
+
+    // ◀ Повний конструктор
     public SurveyQuestion(String questionText, String type, List<String> options, boolean customAllowed) {
         this.questionText = questionText;
         this.type = type;
-        this.options = options;
+        this.options = options != null ? options : new ArrayList<>();
+        this.selectedAnswers = new ArrayList<>();
         this.customAllowed = customAllowed;
-        this.answers = new ArrayList<>(); // Ініціалізація списку відповідей
     }
 
-    // Конструктор з трьома параметрами (дозвіл на власні варіанти відповіді буде за замовчуванням false)
-    public SurveyQuestion(String questionText, String type, List<String> options) {
-        this.questionText = questionText;
-        this.type = type;
-        this.options = options;
-        this.customAllowed = false; // За замовчуванням не дозволяються власні варіанти
-        this.answers = new ArrayList<>(); // Ініціалізація списку відповідей
+    // ◀ Старий конструктор з одним аргументом
+    public SurveyQuestion(String questionText) {
+        this(questionText, null, null, false);
     }
+
+    // ────────────────────────────────────────────────────────────────────
 
     public String getQuestionText() {
         return questionText;
+    }
+    public void setQuestionText(String questionText) {
+        this.questionText = questionText;
     }
 
     public String getType() {
         return type;
     }
+    public void setType(String type) {
+        this.type = type;
+    }
 
     public List<String> getOptions() {
         return options;
+    }
+    public void setOptions(List<String> options) {
+        this.options = options;
+    }
+    public void addOption(String option) {
+        this.options.add(option);
     }
 
     public boolean isCustomAllowed() {
         return customAllowed;
     }
-
-    public List<String> getAnswers() {
-        return answers; // Геттер для відповідей
+    public void setCustomAllowed(boolean customAllowed) {
+        this.customAllowed = customAllowed;
     }
 
+    public List<String> getSelectedAnswers() {
+        return selectedAnswers;
+    }
+    public void setSelectedAnswers(List<String> selectedAnswers) {
+        this.selectedAnswers = selectedAnswers;
+    }
     public void addAnswer(String answer) {
-        answers.add(answer); // Метод для додавання відповіді
+        this.selectedAnswers.add(answer);
     }
+    public void clearSelectedAnswers() {
+        this.selectedAnswers.clear();
+    }
+
 }

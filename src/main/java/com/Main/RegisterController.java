@@ -85,6 +85,7 @@ public class RegisterController {
     
         if (AuthService.register(username, password)) {
             System.out.println("Реєстрація успішна");
+            switchScene("/login.fxml");
         } else {
             System.out.println("Помилка під час реєстрації");
         }
