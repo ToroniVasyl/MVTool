@@ -182,6 +182,31 @@ public class DoneSurveyController {
     return selectedAnswers;
 }
 
+private void showAnswersOnly(List<SurveyQuestion> questions) {
+    questionContainer.getChildren().clear();
+
+    for (SurveyQuestion q : questions) {
+        VBox questionBox = new VBox(10);
+        questionBox.setPadding(new Insets(10));
+        questionBox.setStyle("-fx-background-color: #F5F5F5; -fx-background-radius: 5;");
+
+        Label questionLabel = new Label(q.getQuestionText());
+        questionLabel.setFont(javafx.scene.text.Font.font(16));
+
+        VBox optionsBox = new VBox(5);
+
+        for (String answer : q.getSelectedAnswers()) {
+            Label answerLabel = new Label("Відповідь: " + answer);
+            answerLabel.setStyle("-fx-text-fill: #333;");
+            optionsBox.getChildren().add(answerLabel);
+        }
+
+        questionBox.getChildren().addAll(questionLabel, optionsBox);
+        questionContainer.getChildren().add(questionBox);
+    }
+
+    save.setVisible(false);  // приховати кнопку "Зберегти"
+}
 
     
 
@@ -316,6 +341,7 @@ private void handleDoneClick(ActionEvent event) {
     } catch (IOException e) {
         e.printStackTrace();
     }
+    
 }
 
 
@@ -382,6 +408,78 @@ public void loadSurveyById(int surveyId) {
         }
 
         setQuestions(questions);
+
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+}
+   public void loadSurveyFromHistory(int historyId) {
+    try (Connection conn = DataBaseConnect.connect()) {
+        // Отримати survey_id, title, description
+        String surveyQuery = "SELECT s.id AS survey_id, s.title, s.description FROM survey_history sh JOIN surveys s ON sh.survey_id = s.id WHERE sh.id = ?";
+        PreparedStatement surveyStmt = conn.prepareStatement(surveyQuery);
+        surveyStmt.setInt(1, historyId);
+        ResultSet surveyRs = surveyStmt.executeQuery();
+
+        int surveyId = -1;
+        if (surveyRs.next()) {
+            surveyId = surveyRs.getInt("survey_id");
+            String title = surveyRs.getString("title");
+            String description = surveyRs.getString("description");
+            setSurveyInfo(title, description);
+        }
+
+        // Отримати питання
+        String questionQuery = "SELECT id, text FROM questions WHERE survey_id = ?";
+        PreparedStatement questionStmt = conn.prepareStatement(questionQuery);
+        questionStmt.setInt(1, surveyId);
+        ResultSet questionRs = questionStmt.executeQuery();
+
+        List<SurveyQuestion> questions = new ArrayList<>();
+
+        while (questionRs.next()) {
+            int questionId = questionRs.getInt("id");
+            String questionText = questionRs.getString("text");
+
+            // Витягуємо варіанти відповіді
+            String answerQuery = "SELECT answer, is_custom_allowed FROM answers WHERE question_id = ?";
+            PreparedStatement answerStmt = conn.prepareStatement(answerQuery);
+            answerStmt.setInt(1, questionId);
+            ResultSet answerRs = answerStmt.executeQuery();
+
+            List<String> options = new ArrayList<>();
+            boolean hasCustom = false;
+            while (answerRs.next()) {
+                String ans = answerRs.getString("answer");
+                boolean isCustom = answerRs.getBoolean("is_custom_allowed");
+                if (isCustom) hasCustom = true;
+                else options.add(ans);
+            }
+
+            // Витягуємо відповіді користувача
+            String userAnswerQuery = "SELECT answer_text FROM user_answers WHERE survey_history_id = ? AND question_id = ?";
+            PreparedStatement uaStmt = conn.prepareStatement(userAnswerQuery);
+            uaStmt.setInt(1, historyId);
+            uaStmt.setInt(2, questionId);
+            ResultSet uaRs = uaStmt.executeQuery();
+
+            List<String> selectedAnswers = new ArrayList<>();
+            while (uaRs.next()) {
+                selectedAnswers.add(uaRs.getString("answer_text"));
+            }
+
+            String type;
+            if (options.size() == 1) type = "Один варіант";
+            else if (options.size() > 1) type = "Декілька варіантів";
+            else type = "Власна відповідь";
+
+            SurveyQuestion q = new SurveyQuestion(questionText, type, options, hasCustom);
+            q.setSelectedAnswers(selectedAnswers);
+            questions.add(q);
+        }
+
+        // Показати у вигляді пройденого опитування (тільки перегляд)
+        showAnswersOnly(questions);
 
     } catch (SQLException e) {
         e.printStackTrace();

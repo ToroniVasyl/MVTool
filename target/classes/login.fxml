@@ -105,8 +105,8 @@
                   <Font name="Impact" size="45.0" />
                </font>
             </Text>
-            <TextField fx:id="usernameField" layoutX="282.0" layoutY="248.0" prefHeight="25.0" prefWidth="298.0" />
-            <PasswordField fx:id="passwordField" layoutX="282.0" layoutY="324.0" prefHeight="25.0" prefWidth="298.0" />
+            <TextField fx:id="usernameField" layoutX="282.0" layoutY="324.0" prefHeight="25.0" prefWidth="298.0" />
+            <PasswordField fx:id="passwordField" layoutX="282.0" layoutY="248.0" prefHeight="25.0" prefWidth="298.0" />
             <Text fill="#41485b" layoutX="393.0" layoutY="241.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Пошта:" textAlignment="CENTER">
                <font>
                   <Font name="Calibri" size="25.0" />
