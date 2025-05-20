@@ -25,6 +25,10 @@ import java.util.Map;
 import java.sql.Statement;
 import javafx.scene.Node;
 
+import javafx.print.PrinterJob;
+import javafx.scene.Node;
+import javafx.scene.control.Alert.AlertType;
+
 
 
 import com.Main.DataBase.DataBaseConnect;
@@ -65,6 +69,11 @@ public class DoneSurveyController {
     private String type;
 
     @FXML
+    private Button printButton;
+
+    
+
+    @FXML
     public void initialize() {
         exitButton.setOnAction(this::handleExit);
         plus.setOnMouseClicked(this::handlePlusClick);
@@ -72,6 +81,7 @@ public class DoneSurveyController {
         stories.setOnMouseClicked(this::handleStoriesClick);
         loginButton.setOnAction(this::handleLoginClick);
         save.setOnAction(this::handleDoneClick);
+         printButton.setOnAction(this::handlePrintClick);
 
         Tooltip.install(home, new Tooltip("Домашня сторінка"));
         Tooltip.install(plus, new Tooltip("Створити нове"));
@@ -89,6 +99,10 @@ public class DoneSurveyController {
 
     private void handlePlusClick(MouseEvent event) {
         switchScene("/newsurvey.fxml");
+    }
+
+    private void handlePrintClick(ActionEvent event) {
+    printSurvey(questionContainer);
     }
 
     private void handleHomeClick(MouseEvent event) {
@@ -114,6 +128,20 @@ public class DoneSurveyController {
         surveyTitle.setText(title);
         surveyDescription.setText(description);
     }
+
+ private void printSurvey(Node nodeToPrint) {
+    PrinterJob job = PrinterJob.createPrinterJob();
+    if (job != null && job.showPrintDialog(null)) {
+        boolean success = job.printPage(nodeToPrint);
+        if (success) {
+            job.endJob();
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Помилка друку.");
+            alert.showAndWait();
+        }
+    }
+}
+
 
     public void setQuestions(List<SurveyQuestion> questions) {
         questionContainer.getChildren().clear();

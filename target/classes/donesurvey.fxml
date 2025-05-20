@@ -67,7 +67,16 @@
                </font>
             </Label>
       
-                <Button fx:id="save" layoutX="354.0" layoutY="594.0" prefHeight="65.0" prefWidth="156.0" style="-fx-background-color: #41485b;" text="Зберегти" textFill="WHITE">
+                <Button fx:id="save" layoutX="200.0" layoutY="594.0" prefHeight="65.0" prefWidth="156.0" style="-fx-background-color: #41485b;" text="Зберегти" textFill="WHITE">
+                    <font>
+                  <Font size="22.0" />
+               </font>
+                    <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+                </Button>
+
+                <Button fx:id="printButton" layoutX="500.0" layoutY="594.0" prefHeight="65.0" prefWidth="156.0" style="-fx-background-color: #41485b;" text="Друкувати" textFill="WHITE">
                     <font>
                   <Font size="22.0" />
                </font>
