@@ -15,10 +15,10 @@
 <?import javafx.scene.text.Text?>
 <?import javafx.scene.control.PasswordField?>
 
-<AnchorPane prefHeight="768.0" prefWidth="1366.0" style="-fx-background-color: #454C60;" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.Main.RegisterController">
+<AnchorPane prefHeight="768.0" prefWidth="1366.0" style="-fx-background-color: radial-gradient(center 50% 50%, radius 100%, #5A6380, #3A3F51);" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.Main.RegisterController">
     
     <children>
-      <AnchorPane layoutX="667.0" prefHeight="41.0" prefWidth="334.0" style="-fx-background-color: #2F3442;">
+      <AnchorPane layoutX="667.0" prefHeight="41.0" prefWidth="334.0" style="-fx-background-color: radial-gradient(center 50% 50%, radius 100%, #2F3442,rgb(28, 32, 44));">
          <effect>
             <DropShadow />
          </effect>
@@ -50,13 +50,13 @@
          </children>
       </AnchorPane>
 
-        <AnchorPane prefHeight="768.0" prefWidth="334.0" style="-fx-background-color: #2F3442;">
+        <AnchorPane prefHeight="768.0" prefWidth="334.0" style="-fx-background-color: radial-gradient(center 50% 50%, radius 100%, #2F3442,rgb(28, 32, 44));">
             <effect>
                 <DropShadow />
             </effect>
             <children>
                 
-                <AnchorPane layoutY="49.0" prefHeight="69.0" prefWidth="334.0" style="-fx-background-color: #454C60;">
+                <AnchorPane layoutY="49.0" prefHeight="69.0" prefWidth="334.0" style="-fx-background-color: radial-gradient(center 50% 50%, radius 100%, #5A6380, #3A3F51);">
                     <children>
                         <Text fill="WHITE" layoutX="116.0" layoutY="48.0" stroke="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="MVTool" textAlignment="CENTER">
                             <font>
@@ -69,7 +69,7 @@
                     </effect>
                 </AnchorPane>
                 
-                                        <Button fx:id="exitButton" layoutX="87.0" layoutY="695.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="160.0" style="-fx-background-color: #FF4646;" text="Вийти з програми" textAlignment="CENTER" textFill="WHITE">
+                <Button fx:id="exitButton" layoutX="87.0" layoutY="695.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="160.0" style="-fx-background-color: linear-gradient(to bottom,rgb(161, 37, 37),rgb(92, 17, 17));" text="Вийти з програми" textAlignment="CENTER" textFill="WHITE">
                     <font>
                         <Font name="Impact" size="16.0" />
                     </font>
@@ -96,27 +96,27 @@
             <Circle fill="WHITE" layoutX="105.0" layoutY="416.0" opacity="0.25" radius="25.0" stroke="BLACK" strokeType="INSIDE" />
             </children>
         </AnchorPane>
-      <Pane layoutX="404.0" layoutY="67.0" prefHeight="673.0" prefWidth="861.0" style="-fx-background-color: white;">
+      <Pane layoutX="404.0" layoutY="67.0" prefHeight="673.0" prefWidth="861.0" style="-fx-background-color: white; -fx-background-radius: 20;">
          <children>
             <Hyperlink fx:id="loginLink" layoutX="361.0" layoutY="402.0" text="Вже є аккаунт? Увійдіть!" />
-            <Text fill="#41485b" layoutX="323.0" layoutY="162.0" stroke="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Реєстрація" textAlignment="CENTER">
+            <Text fill="rgb(28, 32, 44)" layoutX="323.0" layoutY="162.0" stroke="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Реєстрація" textAlignment="CENTER">
                <font>
                   <Font name="Impact" size="45.0" />
                </font>
             </Text>
-            <TextField fx:id="usernameField" layoutX="282.0" layoutY="324.0" prefHeight="25.0" prefWidth="298.0" />
-            <PasswordField fx:id="passwordField" layoutX="282.0" layoutY="248.0" prefHeight="25.0" prefWidth="298.0" />
-            <Text fill="#41485b" layoutX="393.0" layoutY="241.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Пошта:" textAlignment="CENTER">
+            <TextField fx:id="usernameField" layoutX="282.0" layoutY="248.0" prefHeight="25.0" prefWidth="298.0" />
+            <PasswordField fx:id="passwordField" layoutX="282.0" layoutY="324.0" prefHeight="25.0" prefWidth="298.0" />
+            <Text fill="rgb(28, 32, 44)" layoutX="393.0" layoutY="241.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Пошта:" textAlignment="CENTER">
                <font>
                   <Font name="Calibri" size="25.0" />
                </font>
             </Text>
-            <Text fill="#41485b" layoutX="388.0" layoutY="317.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Пароль:" textAlignment="CENTER">
+            <Text fill="rgb(28, 32, 44)" layoutX="388.0" layoutY="317.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Пароль:" textAlignment="CENTER">
                <font>
                   <Font name="Calibri" size="25.0" />
                </font>
             </Text>
-            <Button fx:id="registerButton"  layoutX="385.0" layoutY="364.0" mnemonicParsing="false" style="-fx-background-color: #41485b;" text="Реєстрація" textFill="WHITE">
+            <Button fx:id="registerButton"  layoutX="385.0" layoutY="364.0" mnemonicParsing="false" style="-fx-background-color: radial-gradient(center 50% 50%, radius 100%, #2F3442,rgb(28, 32, 44));" text="Реєстрація" textFill="WHITE">
                <font>
                   <Font size="15.0" />
                </font>
