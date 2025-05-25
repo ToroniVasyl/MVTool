@@ -29,6 +29,11 @@ public class Main extends Application {
             }
 
             primaryStage.setScene(scene);
+
+            primaryStage.setResizable(false);
+            primaryStage.setFullScreen(false);
+            primaryStage.setMaximized(false);
+
             primaryStage.show();
         } catch (Exception e) {
             e.printStackTrace();

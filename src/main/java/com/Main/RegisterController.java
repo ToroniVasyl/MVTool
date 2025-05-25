@@ -14,7 +14,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.control.TextField;
 import javafx.scene.control.PasswordField;
 
-
 import java.io.IOException;
 
 public class RegisterController {
@@ -46,7 +45,6 @@ public class RegisterController {
     @FXML
     private Button registerButton;
 
-
     @FXML
     public void initialize() {
         exitButton.setOnAction(this::handleExit);
@@ -55,6 +53,53 @@ public class RegisterController {
         plus.setOnMouseClicked(this::handlePlusClick);
         home.setOnMouseClicked(this::handleHomeClick);
         stories.setOnMouseClicked(this::handleStoriesClick);
+
+        loginButton.setOnMouseEntered(e -> loginButton.setStyle(
+            "-fx-background-color: #41485b;" +
+            "-fx-text-fill: white;"
+        ));
+
+        loginButton.setOnMouseExited(e -> loginButton.setStyle(
+            "-fx-background-color: linear-gradient(to bottom, rgb(255, 255, 255), rgb(156, 156, 156));" +
+            "-fx-text-fill: #41485b;"
+        ));
+
+        exitButton.setOnMouseEntered(e -> exitButton.setStyle(
+            "-fx-background-color:rgb(80, 12, 12);" +
+            "-fx-text-fill: white;"
+        ));
+
+        exitButton.setOnMouseExited(e -> exitButton.setStyle(
+            "-fx-background-color: linear-gradient(to bottom, rgb(161, 37, 37), rgb(92, 17, 17));" +
+            "-fx-text-fill: white;"
+        ));
+
+        home.setOnMouseEntered(e -> {
+            home.setScaleX(1.2);
+            home.setScaleY(1.2);
+        });
+        home.setOnMouseExited(e -> {
+            home.setScaleX(1.0);
+            home.setScaleY(1.0);
+        });
+
+        plus.setOnMouseEntered(e -> {
+            plus.setScaleX(1.2);
+            plus.setScaleY(1.2);
+        });
+        plus.setOnMouseExited(e -> {
+            plus.setScaleX(1.0);
+            plus.setScaleY(1.0);
+        });
+
+        stories.setOnMouseEntered(e -> {
+            stories.setScaleX(1.2);
+            stories.setScaleY(1.2);
+        });
+        stories.setOnMouseExited(e -> {
+            stories.setScaleX(1.0);
+            stories.setScaleY(1.0);
+        });
     }
 
     private void handleExit(ActionEvent event) {

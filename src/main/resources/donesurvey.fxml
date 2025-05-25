@@ -36,11 +36,11 @@
 
         <AnchorPane layoutX="404.0" layoutY="67.0" prefHeight="673.0" prefWidth="861.0" style="-fx-background-color: white; -fx-background-radius: 20;" AnchorPane.leftAnchor="404.0" AnchorPane.rightAnchor="102.0">
             <children>
-                <Text fx:id="surveyTitle" fill="rgb(28, 32, 44)" layoutY="100.0" text="Назва опитування" textAlignment="CENTER" wrappingWidth="861.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                <Text fx:id="surveyTitle" fill="rgb(37, 42, 56)" layoutY="100.0" text="Назва опитування" textAlignment="CENTER" wrappingWidth="861.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                     <font><Font name="Impact" size="45.0" /></font>
                 </Text>
 
-                <Line endX="348.0" endY="-1.0" layoutX="307.0" layoutY="110.0" startX="-100.0" stroke="rgb(28, 32, 44)" strokeWidth="3.0" />
+                <Line endX="348.0" endY="-1.0" layoutX="307.0" layoutY="110.0" startX="-100.0" stroke="rgb(37, 42, 56)" strokeWidth="3.0" />
 
                 <ScrollPane fitToWidth="true" layoutX="206.0" layoutY="223.0" prefHeight="360.0" prefWidth="452.0">
                     <content>
@@ -67,7 +67,7 @@
                </font>
             </Label>
       
-                <Button fx:id="save" layoutX="200.0" layoutY="594.0" prefHeight="65.0" prefWidth="156.0" style="-fx-background-color: radial-gradient(center 50% 50%, radius 100%, #2F3442,rgb(28, 32, 44));" text="Зберегти" textFill="WHITE">
+                <Button fx:id="save" layoutX="200.0" layoutY="594.0" prefHeight="65.0" prefWidth="156.0" style="-fx-background-color: radial-gradient(center 50% 50%, radius 100%,rgb(58, 64, 82),rgb(38, 43, 58));" text="Зберегти" textFill="WHITE">
                     <font>
                   <Font size="22.0" />
                </font>
@@ -76,7 +76,7 @@
                </cursor>
                 </Button>
 
-                <Button fx:id="printButton" layoutX="500.0" layoutY="594.0" prefHeight="65.0" prefWidth="156.0" style="-fx-background-color: radial-gradient(center 50% 50%, radius 100%, #2F3442,rgb(28, 32, 44));" text="Друкувати" textFill="WHITE">
+                <Button fx:id="printButton" layoutX="500.0" layoutY="594.0" prefHeight="65.0" prefWidth="156.0" style="-fx-background-color: radial-gradient(center 50% 50%, radius 100%,rgb(58, 64, 82),rgb(38, 43, 58));" text="Друкувати" textFill="WHITE">
                     <font>
                   <Font size="22.0" />
                </font>
@@ -111,7 +111,7 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
-            <Button fx:id="loginButton" layoutX="94.0" layoutY="165.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="147.0" style="-fx-background-color: white;" text="Вхід/Реєстрація" textFill="#41485b">
+            <Button fx:id="loginButton" layoutX="94.0" layoutY="165.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="147.0" style="-fx-background-color: linear-gradient(to bottom, rgb(255, 255, 255), rgb(156, 156, 156));" text="Вхід/Реєстрація" textFill="#41485b">
                <font>
                   <Font name="Impact" size="16.0" />
                </font>

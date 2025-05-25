@@ -36,15 +36,15 @@
 
         <Pane layoutX="404.0" layoutY="67.0" prefHeight="673.0" prefWidth="861.0" style="-fx-background-color: white; -fx-background-radius: 20;">
             <children>
-                <Text fill="rgb(28, 32, 44)" layoutX="245.0" layoutY="100.0" text="Історія опитування">
+                <Text fill="rgb(37, 42, 56)" layoutX="245.0" layoutY="100.0" text="Історія опитування">
                     <font><Font name="Impact" size="45.0" /></font>
                 </Text>
 
-                <Line endX="348.0" endY="-1.0" layoutX="307.0" layoutY="110.0" startX="-100.0" stroke="rgb(28, 32, 44)" strokeWidth="3.0" />
+                <Line endX="348.0" endY="-1.0" layoutX="307.0" layoutY="110.0" startX="-100.0" stroke="rgb(37, 42, 56)" strokeWidth="3.0" />
 
                 <ScrollPane fitToWidth="true" layoutX="205.0" layoutY="146.0" prefHeight="474.0" prefWidth="452.0">
                     <content>
-                        <VBox fx:id="surveyList" spacing="20.0" />
+                        <VBox fx:id="surveyList" spacing="10.0" />
                     </content>
                 </ScrollPane>
 
@@ -88,7 +88,7 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
-            <Button fx:id="loginButton" layoutX="94.0" layoutY="165.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="147.0" style="-fx-background-color: white;" text="Вхід/Реєстрація" textFill="#41485b">
+            <Button fx:id="loginButton" layoutX="94.0" layoutY="165.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="147.0" style="-fx-background-color: linear-gradient(to bottom, rgb(255, 255, 255), rgb(156, 156, 156));" text="Вхід/Реєстрація" textFill="#41485b">
                <font>
                   <Font name="Impact" size="16.0" />
                </font>

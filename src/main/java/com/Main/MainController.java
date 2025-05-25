@@ -10,6 +10,7 @@ import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import javafx.event.ActionEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 
 import java.io.IOException;
 
@@ -31,6 +32,9 @@ public class MainController {
     private ImageView home;
 
     @FXML
+    private AnchorPane menuBar;
+
+    @FXML
     public void initialize() {
         exitButton.setOnAction(this::handleExit);
         plus.setOnMouseClicked(this::handlePlusClick);
@@ -41,6 +45,53 @@ public class MainController {
         Tooltip.install(home, new Tooltip("Домашня сторінка"));
         Tooltip.install(plus, new Tooltip("Створити нове"));
         Tooltip.install(stories, new Tooltip("Історія опитувань"));
+
+        loginButton.setOnMouseEntered(e -> loginButton.setStyle(
+            "-fx-background-color: #41485b;" +
+            "-fx-text-fill: white;"
+        ));
+
+        loginButton.setOnMouseExited(e -> loginButton.setStyle(
+            "-fx-background-color: linear-gradient(to bottom, rgb(255, 255, 255), rgb(156, 156, 156));" +
+            "-fx-text-fill: #41485b;"
+        ));
+
+        exitButton.setOnMouseEntered(e -> exitButton.setStyle(
+            "-fx-background-color:rgb(80, 12, 12);" +
+            "-fx-text-fill: white;"
+        ));
+
+        exitButton.setOnMouseExited(e -> exitButton.setStyle(
+            "-fx-background-color: linear-gradient(to bottom, rgb(161, 37, 37), rgb(92, 17, 17));" +
+            "-fx-text-fill: white;"
+        ));
+
+        home.setOnMouseEntered(e -> {
+            home.setScaleX(1.2);
+            home.setScaleY(1.2);
+        });
+        home.setOnMouseExited(e -> {
+            home.setScaleX(1.0);
+            home.setScaleY(1.0);
+        });
+
+        plus.setOnMouseEntered(e -> {
+            plus.setScaleX(1.2);
+            plus.setScaleY(1.2);
+        });
+        plus.setOnMouseExited(e -> {
+            plus.setScaleX(1.0);
+            plus.setScaleY(1.0);
+        });
+
+        stories.setOnMouseEntered(e -> {
+            stories.setScaleX(1.2);
+            stories.setScaleY(1.2);
+        });
+        stories.setOnMouseExited(e -> {
+            stories.setScaleX(1.0);
+            stories.setScaleY(1.0);
+        });
     }
 
     private void handleExit(ActionEvent event) {

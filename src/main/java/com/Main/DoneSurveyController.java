@@ -29,8 +29,6 @@ import javafx.print.PrinterJob;
 import javafx.scene.Node;
 import javafx.scene.control.Alert.AlertType;
 
-
-
 import com.Main.DataBase.DataBaseConnect;
 
 public class DoneSurveyController {
@@ -71,8 +69,6 @@ public class DoneSurveyController {
     @FXML
     private Button printButton;
 
-    
-
     @FXML
     public void initialize() {
         exitButton.setOnAction(this::handleExit);
@@ -86,6 +82,53 @@ public class DoneSurveyController {
         Tooltip.install(home, new Tooltip("Домашня сторінка"));
         Tooltip.install(plus, new Tooltip("Створити нове"));
         Tooltip.install(stories, new Tooltip("Історія опитувань"));
+
+        loginButton.setOnMouseEntered(e -> loginButton.setStyle(
+            "-fx-background-color: #41485b;" +
+            "-fx-text-fill: white;"
+        ));
+
+        loginButton.setOnMouseExited(e -> loginButton.setStyle(
+            "-fx-background-color: linear-gradient(to bottom, rgb(255, 255, 255), rgb(156, 156, 156));" +
+            "-fx-text-fill: #41485b;"
+        ));
+
+        exitButton.setOnMouseEntered(e -> exitButton.setStyle(
+            "-fx-background-color:rgb(80, 12, 12);" +
+            "-fx-text-fill: white;"
+        ));
+
+        exitButton.setOnMouseExited(e -> exitButton.setStyle(
+            "-fx-background-color: linear-gradient(to bottom, rgb(161, 37, 37), rgb(92, 17, 17));" +
+            "-fx-text-fill: white;"
+        ));
+
+        home.setOnMouseEntered(e -> {
+            home.setScaleX(1.2);
+            home.setScaleY(1.2);
+        });
+        home.setOnMouseExited(e -> {
+            home.setScaleX(1.0);
+            home.setScaleY(1.0);
+        });
+
+        plus.setOnMouseEntered(e -> {
+            plus.setScaleX(1.2);
+            plus.setScaleY(1.2);
+        });
+        plus.setOnMouseExited(e -> {
+            plus.setScaleX(1.0);
+            plus.setScaleY(1.0);
+        });
+
+        stories.setOnMouseEntered(e -> {
+            stories.setScaleX(1.2);
+            stories.setScaleY(1.2);
+        });
+        stories.setOnMouseExited(e -> {
+            stories.setScaleX(1.0);
+            stories.setScaleY(1.0);
+        });
     }
 
     private void handleExit(ActionEvent event) {
@@ -149,7 +192,7 @@ public class DoneSurveyController {
         for (SurveyQuestion q : questions) {
             VBox questionBox = new VBox(10);
             questionBox.setPadding(new Insets(10));
-            questionBox.setStyle("-fx-background-color: #F5F5F5; -fx-background-radius: 5;");
+            questionBox.setStyle("-fx-background-color: #F5F5F5; -fx-background-radius: 10;");
 
             Label questionLabel = new Label(q.getQuestionText());
             questionLabel.setFont(javafx.scene.text.Font.font(16));

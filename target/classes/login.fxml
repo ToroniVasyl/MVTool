@@ -3,6 +3,7 @@
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.image.Image?>
@@ -13,8 +14,6 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
-<?import javafx.scene.control.PasswordField?>
-
 
 <AnchorPane prefHeight="768.0" prefWidth="1366.0" style="-fx-background-color: radial-gradient(center 50% 50%, radius 100%, #5A6380, #3A3F51);" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.Main.LoginController">
     
@@ -78,7 +77,7 @@
                         <Cursor fx:constant="HAND" />
                     </cursor>
                 </Button>
-            <Button fx:id="loginButton" layoutX="94.0" layoutY="165.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="147.0" style="-fx-background-color: white;" text="Вхід/Реєстрація" textFill="#41485b">
+            <Button fx:id="login1Button" layoutX="94.0" layoutY="165.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="147.0" style="-fx-background-color: linear-gradient(to bottom, rgb(255, 255, 255), rgb(156, 156, 156));" text="Вхід/Реєстрація" textFill="#41485b">
                <font>
                   <Font name="Impact" size="16.0" />
                </font>
@@ -117,7 +116,7 @@
                   <Font name="Calibri" size="25.0" />
                </font>
             </Text>
-            <Button fx:id="loginButton"  layoutX="399.0" layoutY="364.0" mnemonicParsing="false" style="-fx-background-color: radial-gradient(center 50% 50%, radius 100%, #2F3442,rgb(28, 32, 44));" text="Увійти" textFill="WHITE">
+            <Button fx:id="loginButton" layoutX="399.0" layoutY="364.0" mnemonicParsing="false" style="-fx-background-color: radial-gradient(center 50% 50%, radius 100%, #2F3442,rgb(28, 32, 44));" text="Увійти" textFill="WHITE">
                <font>
                   <Font size="15.0" />
                </font>

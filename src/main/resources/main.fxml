@@ -73,7 +73,7 @@
                         <Cursor fx:constant="HAND" />
                     </cursor>
                 </Button>
-            <Button fx:id="loginButton" layoutX="94.0" layoutY="165.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="147.0" style="-fx-background-color: white;" text="Вхід/Реєстрація" textFill="#41485b">
+            <Button fx:id="loginButton" layoutX="94.0" layoutY="165.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="147.0" style="-fx-background-color: linear-gradient(to bottom, rgb(255, 255, 255), rgb(156, 156, 156));" text="Вхід/Реєстрація" textFill="#41485b">
                <font>
                   <Font name="Impact" size="16.0" />
                </font>
